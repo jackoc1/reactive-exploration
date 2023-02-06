@@ -1,0 +1,2 @@
+env_name: 'procgen:procgen-coinrun-v0'
+soft_horizon: 1e4

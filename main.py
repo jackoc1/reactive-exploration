@@ -11,7 +11,7 @@ from src import custom_environments, cartpole
 sys.modules['jbw.environments'] = custom_environments
 sys.modules['cartpole'] = cartpole
 import gym
-from src.curiosity_ppo import PPO
+from src.custom_curiosity_ppo import CustomPPO as PPO
 from src.dqn_per import PrioritizedExperienceReplayDQN
 from src.curiosity_dqn import DCQN
 from src.soft_q_learning import SQL
