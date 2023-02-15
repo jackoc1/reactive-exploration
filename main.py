@@ -180,7 +180,7 @@ def setup_wandb(config):
     wandb.login()
     # tracks everything that TensorBoard tracks
     wandb.tensorboard.patch(root_logdir=log_dir)
-    wandb_run = wandb.init(project="lifelong-rl", name=log_dir,
+    wandb_run = wandb.init(project="curiosity_measurements", name=log_dir,
                            dir=log_dir, save_code=False, config=config_dict)
     wandb_run.tags = wandb_run.tags + tuple(make_wandb_tags(config_dict))
     print(f"Writing Weights & Biases logs to: {str(wandb_path)}")
@@ -198,7 +198,7 @@ def make_wandb_tags(config):
     return tags
 
 
-@hydra.main(config_path="configs", config_name="config")
+@hydra.main(config_path="configs", config_name="cartpole_config")
 def main(config):
     print("Config: ", config)
     if config.use_wandb:
