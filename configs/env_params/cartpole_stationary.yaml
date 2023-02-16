@@ -8,12 +8,3 @@ cartpole_dicts:
     rew_xc: 0.08680555555555555  # 1 / 11.52
     rew_theta_c: 0.003472222222222222  # 1 / 288
     reset_pole_on_drop: True
-
-  - stop_at_x_threshold: True
-    modulo_theta: True
-    reward_function: 'variable'
-    rew_xc: 0.08680555555555555  # 1 / 11.52
-    rew_theta_c: 0.003472222222222222  # 1 / 288
-    reset_pole_on_drop: True
-    length: 0.9
-    mass: 2.0
