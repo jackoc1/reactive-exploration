@@ -9,7 +9,7 @@ from pathlib import Path
 from stable_baselines3.common.callbacks import CheckpointCallback, CallbackList
 from src import custom_environments, cartpole
 sys.modules['jbw.environments'] = custom_environments
-sys.modules['cartpole'] = cartpole
+# sys.modules['cartpole'] = cartpole
 import gym
 from src.custom_curiosity_ppo import CustomPPO as PPO
 from src.dqn_per import PrioritizedExperienceReplayDQN
@@ -180,7 +180,7 @@ def setup_wandb(config):
     wandb.login()
     # tracks everything that TensorBoard tracks
     wandb.tensorboard.patch(root_logdir=log_dir)
-    wandb_run = wandb.init(project="curiosity_measurements", name=log_dir,
+    wandb_run = wandb.init(project="cartpole_curiosity", name=log_dir,
                            dir=log_dir, save_code=False, config=config_dict)
     wandb_run.tags = wandb_run.tags + tuple(make_wandb_tags(config_dict))
     print(f"Writing Weights & Biases logs to: {str(wandb_path)}")
@@ -201,6 +201,7 @@ def make_wandb_tags(config):
 @hydra.main(config_path="configs", config_name="cartpole_config")
 def main(config):
     print("Config: ", config)
+    sys.modules['cartpole'] = cartpole
     if config.use_wandb:
         setup_wandb(config)
 
@@ -213,7 +214,8 @@ def main(config):
     agent.learn(total_timesteps=int(config.steps), callback=callbacks, log_interval=1)
     if config.use_wandb:
         # necessary for Hydra multiruns
-        wandb.finish()
+        wandb.join()
+        # wandb.finish()
         wandb.tensorboard.unpatch()
 
 

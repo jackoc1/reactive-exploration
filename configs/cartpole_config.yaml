@@ -1,10 +1,10 @@
 # directory creation is handled by Hydra
 hydra:
   sweep:
-    dir: ../outputs/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S}
+    dir: ../curiosity_outputs/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S}
     subdir: ${hydra.job.override_dirname}/seed=${seed}
   run:
-    dir: ../outputs/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S}
+    dir: ../curiosity_outputs/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S}
   job:
     config:
       override_dirname:
@@ -19,6 +19,7 @@ defaults:
   - _self_
   - agent_params: icm_mlp
   - env_params: cartpole_length_mass
+  - override hydra/launcher: joblib
 
 experiment_name: PPO_Cartpole_Length_Mass-v1
 seed: 1
@@ -30,8 +31,8 @@ start_recording: 0
 stop_recording: -1
 
 run_params:
-  log_dir: './double_length_mass'
-  save_dir: './double_length_mass'
+  log_dir: './'
+  save_dir: './'
   with_timestamp: False
 
 callback_params:

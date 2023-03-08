@@ -16,3 +16,4 @@ profiling/
 *.gif
 procgen/
 infh-cartpole/
+wandb/
