@@ -9,6 +9,14 @@ import gym
 from gym import spaces
 from gym.utils import seeding
 import numpy as np
+import pyglet
+
+
+class DrawText:
+    def __init__(self, label:pyglet.text.Label):
+        self.label=label
+    def render(self):
+        self.label.draw()
 
 
 class CartPoleEnv(gym.Env):
@@ -272,7 +280,7 @@ class CartPoleEnv(gym.Env):
             # https://github.com/tensorflow/agents/blob/master/tf_agents/environments/suite_gym.py
             # original parameters: reward = (1 - (x**2) / 11.52 + (theta ** 2) / 288)
             # ( (theta + math.pi) % (2 * math.pi) ) is adjusted theta such that balanced pole facing north = 1*pi
-            if self.params['modulo_theta']:
+            if self.modulo_theta:
                 # theta to degrees % 360
                 adjusted_theta = (theta * 180 / math.pi) % 360
                 # distance in degrees to north position = 0 degrees
@@ -307,7 +315,7 @@ class CartPoleEnv(gym.Env):
         relative_steps = self.num_timesteps % self.change_interval
         cycle = (self.num_timesteps // self.change_interval) % 2
         # TODO 
-        if cycle is 0:
+        if cycle == 0:
             # w = relatiev steps / total steps
             w = relative_steps / self.change_interval
         else:
@@ -329,14 +337,14 @@ class CartPoleEnv(gym.Env):
         return np.array(self.state)
 
     def render(self, mode='human'):
-        screen_width = 600
-        screen_height = 400
+        screen_width = 1080  # adjusted for open day, was 800x600
+        screen_height = 720
 
         world_width = self.x_threshold * 2
         scale = screen_width / world_width
         carty = 100  # TOP OF CART
         polewidth = 10.0
-        polelen = scale * (2 * self.length)
+        polelen = 0.25 * scale * (2 * self.length)  # adjusted for open day *0.25
         cartwidth = 50.0
         cartheight = 30.0
 
@@ -367,6 +375,14 @@ class CartPoleEnv(gym.Env):
 
             self._pole_geom = pole
 
+            # open day
+            text = f'Length: {self.length}\tMass: {self.masscart}'
+            self.label = pyglet.text.Label(text, font_size=28,
+                          x=10, y=10, anchor_x='left', anchor_y='bottom',
+                          color=(255, 123, 255, 255))
+            self.label.draw()
+            self.viewer.add_geom(DrawText(self.label))
+
         if self.state is None:
             return None
 
@@ -379,6 +395,9 @@ class CartPoleEnv(gym.Env):
         cartx = x[0] * scale + screen_width / 2.0  # MIDDLE OF CART
         self.carttrans.set_translation(cartx, carty)
         self.poletrans.set_rotation(-x[2])
+
+        # open day
+        self.label.text = f'Length: {self.length}\tMass: {self.masscart}'
 
         return self.viewer.render(return_rgb_array=mode == 'rgb_array')
 
