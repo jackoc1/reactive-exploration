@@ -1,3 +1,8 @@
+# Testing procgen environment using stable_baselines3 models. None of these models are capable of learning
+# even a single easy level, nor was reactive exploration. Turns out OpenAI had a special pretrained
+# offline PPO model they used which could complete environments. Training times were also annoyingly long
+# even with the GPU lab computers in UCC.
+
 import gym
 from stable_baselines3 import PPO, DQN
 from stable_baselines3.common.evaluation import evaluate_policy

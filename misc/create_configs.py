@@ -1,3 +1,7 @@
+# Procedurally generate envrionment parameteres where the first 500k steps of the environment are
+# default cartpole parameters and then next 500k steps length and masscart are incremented by
+# a fixed amount. 
+
 import yaml
 
 with open('1.yaml', 'r') as stream:
